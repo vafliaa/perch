@@ -28,8 +28,8 @@
 :root {
   --panel-w: 408px;
   --panel-h: 680px;
-  --capsule-w: 214px;
-  --capsule-h: 44px;
+  --capsule-w: 224px;
+  --capsule-h: 46px;
   --bg: #0c0b0a;
   --bg-soft: #14110e;
   --text: #f3eee7;
@@ -253,10 +253,9 @@ svg {
     radial-gradient(140% 74% at 50% -12%, rgba(var(--accent-rgb), 0.13), transparent 58%),
     linear-gradient(180deg, var(--drawer-top) 0%, var(--drawer-mid) 38%, var(--drawer-bottom) 100%);
   border: 1px solid var(--hair-strong);
-  box-shadow:
-    0 32px 90px var(--shadow),
-    0 6px 24px rgba(0, 0, 0, 0.42),
-    inset 0 1px 0 var(--inset);
+  /* Тень у свёрнутой капсулы не нужна: окно совпадает с овалом по размеру,
+     и любая тень вылезала бы полупрозрачным «боксом» вокруг него. */
+  box-shadow: inset 0 1px 0 var(--inset);
   transition:
     width 0.28s cubic-bezier(0.22, 0.9, 0.22, 1),
     height 0.28s cubic-bezier(0.22, 0.9, 0.22, 1),
@@ -295,6 +294,10 @@ body[data-side='right'] #drawer {
   width: var(--panel-w);
   height: var(--panel-h);
   border-radius: 26px;
+  box-shadow:
+    0 32px 90px var(--shadow),
+    0 6px 24px rgba(0, 0, 0, 0.42),
+    inset 0 1px 0 var(--inset);
 }
 
 #drawer.attention {
