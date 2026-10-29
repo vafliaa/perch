@@ -1,0 +1,403 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; script-src 'self';" />
+    <title>Perch</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body data-side="right" data-theme="perch">
+    <div id="drawer" class="drawer" aria-label="Perch — сессии AI-агентов">
+      <header class="topbar">
+        <div class="brand">
+          <svg class="logo-mark" viewBox="0 0 32 32" aria-hidden="true">
+            <defs>
+              <linearGradient id="logoGradient" x1="7" y1="7" x2="26" y2="26" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#FFC79B" />
+                <stop offset="0.55" stop-color="#E89463" />
+                <stop offset="1" stop-color="#CE6E4D" />
+              </linearGradient>
+            </defs>
+            <rect x="0.5" y="0.5" width="31" height="31" rx="9.5" fill="#17120E" stroke="rgba(255,255,255,0.10)" />
+            <g fill="url(#logoGradient)">
+              <rect x="11" y="7" width="10" height="2" />
+              <rect x="8" y="9" width="16" height="2" />
+              <rect x="6" y="11" width="20" height="10" />
+              <rect x="8" y="21" width="16" height="2" />
+              <rect x="11" y="23" width="10" height="2" />
+            </g>
+            <circle cx="24.5" cy="15" r="6.2" fill="#17120E" />
+            <rect x="24" y="7" width="2" height="2" fill="#FFD9B8" opacity="0.9" />
+            <rect x="27" y="10" width="1.5" height="1.5" fill="#FFD9B8" opacity="0.55" />
+            <rect x="22.5" y="5.5" width="1.5" height="1.5" fill="#FFD9B8" opacity="0.45" />
+          </svg>
+          <span class="brand-text">
+            <span class="brand-name">Perch</span>
+            <span class="brand-sub">AI-агенты</span>
+          </span>
+        </div>
+
+        <div class="capsule-meta" aria-hidden="true">
+          <span class="mini-dots">
+            <i class="mini-dot dot-busy" id="capsuleBusy"></i>
+            <i class="mini-dot dot-waiting" id="capsuleWaiting"></i>
+            <i class="mini-dot dot-idle" id="capsuleIdle"></i>
+          </span>
+          <span class="capsule-count" id="capsuleCount">0</span>
+          <svg class="capsule-chevron" viewBox="0 0 16 16" aria-hidden="true">
+            <path d="M4 6.5 8 10l4-3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </div>
+
+        <div class="top-actions">
+          <button class="icon-btn" id="pinBtn" type="button" title="Закрепить" aria-label="Закрепить">
+            <svg viewBox="0 0 20 20" aria-hidden="true">
+              <path d="M7.2 3.8h5.6l-.7 4.1 2.7 2.3v1.3h-4.4v4.7l-.4.8-.4-.8v-4.7H5.2v-1.3l2.7-2.3-.7-4.1Z" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round" />
+            </svg>
+          </button>
+          <button class="icon-btn" id="settingsBtn" type="button" title="Настройки" aria-label="Настройки">
+            <svg viewBox="0 0 20 20" aria-hidden="true">
+              <path d="M3 6h8M14 6h3M3 14h3M9 14h8" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" />
+              <circle cx="12" cy="6" r="1.9" fill="none" stroke="currentColor" stroke-width="1.3" />
+              <circle cx="7" cy="14" r="1.9" fill="none" stroke="currentColor" stroke-width="1.3" />
+            </svg>
+          </button>
+          <button class="icon-btn" id="closeBtn" type="button" title="Свернуть" aria-label="Свернуть">
+            <svg viewBox="0 0 20 20" aria-hidden="true">
+              <path d="M6 6l8 8M14 6l-8 8" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" />
+            </svg>
+          </button>
+        </div>
+      </header>
+
+      <div class="drawer-body" id="drawerBody">
+        <main class="view-main" id="viewMain">
+          <section class="usage-card" id="usageCard" aria-label="Лимиты Claude">
+            <div class="usage-head">
+              <div>
+                <div class="eyebrow"><span class="eyebrow-dot"></span>Claude Code</div>
+                <h1>Лимиты</h1>
+              </div>
+              <span class="plan-badge" id="planBadge">—</span>
+            </div>
+
+            <div class="gauges">
+              <div class="gauge" id="gauge5h">
+                <div class="gauge-ring">
+                  <svg viewBox="0 0 88 88" aria-hidden="true">
+                    <circle class="ring-track" cx="44" cy="44" r="38" />
+                    <circle class="ring-fill ring-warm" id="ring5h" cx="44" cy="44" r="38" />
+                  </svg>
+                  <div class="gauge-center"><span id="pct5h">—</span><i>%</i></div>
+                </div>
+                <div class="gauge-label">5 часов</div>
+                <div class="gauge-sub" id="reset5h">нет данных</div>
+              </div>
+
+              <div class="gauge-divider"></div>
+
+              <div class="gauge" id="gauge7d">
+                <div class="gauge-ring">
+                  <svg viewBox="0 0 88 88" aria-hidden="true">
+                    <circle class="ring-track" cx="44" cy="44" r="38" />
+                    <circle class="ring-fill ring-cool" id="ring7d" cx="44" cy="44" r="38" />
+                  </svg>
+                  <div class="gauge-center"><span id="pct7d">—</span><i>%</i></div>
+                </div>
+                <div class="gauge-label">7 дней</div>
+                <div class="gauge-sub" id="reset7d">нет данных</div>
+              </div>
+            </div>
+
+            <div class="usage-foot">
+              <span class="live-pill"><i></i><span id="usageUpdated">обновление…</span></span>
+              <button class="icon-btn tiny" id="refreshUsage" type="button" title="Обновить лимиты" aria-label="Обновить лимиты">
+                <svg viewBox="0 0 20 20" aria-hidden="true">
+                  <path d="M15.5 8.3A6 6 0 1 0 16 12" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" />
+                  <path d="M13.2 3.9v4.5h-4.4" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </button>
+            </div>
+
+            <div class="vpn-note" id="vpnNote" hidden>
+              <span class="vpn-dot"></span>
+              <span class="vpn-note-text" id="vpnNoteText">VPN выключен · показываем кеш</span>
+              <button type="button" id="vpnRecheck">Проверить</button>
+            </div>
+
+            <div class="critical-note" id="criticalNote" hidden>
+              <span class="critical-spark"></span>
+              <span id="criticalText">5-часовой лимит почти исчерпан</span>
+            </div>
+
+            <div class="usage-error" id="usageError" hidden>
+              <span id="usageErrorText">Не удалось обновить лимиты</span>
+              <button type="button" id="usageRetry">Повторить</button>
+            </div>
+          </section>
+
+          <div class="sessions-head">
+            <div class="sessions-title">
+              <span>Сессии</span>
+              <span class="count-badge" id="sessionCount">0</span>
+            </div>
+            <span class="sessions-summary" id="sessionSummary">—</span>
+          </div>
+
+          <section class="sessions" id="sessions" aria-live="polite"></section>
+
+          <div class="recent-block" id="recentBlock" hidden>
+            <div class="recent-head">
+              <span>Недавние</span>
+              <span class="recent-hint" id="recentHint">продолжить</span>
+            </div>
+            <section class="recent" id="recent" aria-label="Последние сессии агентов"></section>
+          </div>
+        </main>
+
+        <section class="view-settings" id="viewSettings" hidden>
+          <div class="settings-title">
+            <button class="icon-btn back-btn" id="settingsBack" type="button" aria-label="Назад">
+              <svg viewBox="0 0 20 20" aria-hidden="true">
+                <path d="M11.5 5.5 7 10l4.5 4.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </button>
+            <div>
+              <div class="eyebrow"><span class="eyebrow-dot"></span>Perch</div>
+              <h2>Настройки</h2>
+            </div>
+          </div>
+
+          <div class="settings-scroll">
+            <div class="settings-group">
+              <div class="group-label">Шторка</div>
+
+              <div class="field">
+                <div class="field-head">
+                  <span>Сторона экрана</span>
+                </div>
+                <div class="segmented" id="sideControl">
+                  <button type="button" data-value="left">
+                    <span class="screen-preview left"><i></i></span>
+                    Слева
+                  </button>
+                  <button type="button" data-value="right">
+                    <span class="screen-preview right"><i></i></span>
+                    Справа
+                  </button>
+                </div>
+              </div>
+
+              <div class="field">
+                <div class="field-head">
+                  <span>Высота</span>
+                  <output id="heightValue">—</output>
+                </div>
+                <input type="range" id="heightRange" min="40" max="96" step="1" value="76" />
+                <div class="field-hint">Или потяните за нижний край шторки.</div>
+              </div>
+
+              <div class="field">
+                <div class="field-head">
+                  <span>Ширина</span>
+                  <output id="widthValue">—</output>
+                </div>
+                <input type="range" id="widthRange" min="360" max="480" step="4" value="408" />
+              </div>
+            </div>
+
+            <div class="settings-group">
+              <div class="group-label">Оформление</div>
+
+              <div class="field">
+                <div class="field-head">
+                  <span>Тема</span>
+                </div>
+                <div class="theme-grid" id="themeGrid">
+                  <button type="button" class="theme-swatch" data-theme="perch" title="Perch">
+                    <span class="swatch" style="--sw-bg:#0c0b0a;--sw-accent:#e08a5f;--sw-text:#f3eee7"></span>
+                    <span class="swatch-name">Perch</span>
+                  </button>
+                  <button type="button" class="theme-swatch" data-theme="midnight" title="Midnight">
+                    <span class="swatch" style="--sw-bg:#0a0f1c;--sw-accent:#6aa8ff;--sw-text:#e8eefc"></span>
+                    <span class="swatch-name">Midnight</span>
+                  </button>
+                  <button type="button" class="theme-swatch" data-theme="graphite" title="Graphite">
+                    <span class="swatch" style="--sw-bg:#101112;--sw-accent:#b7bcc4;--sw-text:#f0f1f3"></span>
+                    <span class="swatch-name">Graphite</span>
+                  </button>
+                  <button type="button" class="theme-swatch" data-theme="daylight" title="Daylight">
+                    <span class="swatch" style="--sw-bg:#f4f1ec;--sw-accent:#c2612f;--sw-text:#2a2622"></span>
+                    <span class="swatch-name">Daylight</span>
+                  </button>
+                </div>
+              </div>
+
+              <div class="field">
+                <div class="field-head">
+                  <span>Размер шрифта</span>
+                  <output id="fontValue">100%</output>
+                </div>
+                <input type="range" id="fontRange" min="1" max="1.6" step="0.05" value="1.25" />
+              </div>
+
+              <button class="link-btn" id="resetPositionBtn" type="button">
+                <svg viewBox="0 0 20 20" aria-hidden="true">
+                  <path d="M10 4.2v6.2M10 4.2 7.6 6.6M10 4.2l2.4 2.4" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" />
+                  <path d="M4.8 12.4a5.2 5.2 0 1 0 10.4 0" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" />
+                </svg>
+                Сбросить положение окна
+              </button>
+            </div>
+
+            <div class="settings-group">
+              <div class="group-label">Агенты</div>
+              <div class="agent-list" id="agentList"></div>
+              <div class="field-hint">
+                Perch только читает локальные файлы агентов. Установите нужных агентов сами — приложение не ставит их за вас.
+              </div>
+            </div>
+
+            <div class="settings-group">
+              <div class="group-label">Лимиты</div>
+
+              <div class="network-state checking" id="networkState">
+                <span class="network-text" id="networkText">Проверяю VPN…</span>
+                <button type="button" id="vpnSettingsRecheck">Проверить</button>
+              </div>
+
+              <label class="toggle-row">
+                <span class="toggle-copy">
+                  <span>Лимиты из Claude Code</span>
+                  <small>Берём проценты из строки статуса Claude Code, если API недоступен</small>
+                </span>
+                <input type="checkbox" id="toggleStatusline" />
+                <i class="switch"></i>
+              </label>
+
+              <div class="statusline-state" id="statuslineState">Проверяю…</div>
+              <button class="link-btn statusline-link" id="statuslineOpen" type="button" hidden>
+                <svg viewBox="0 0 20 20" aria-hidden="true">
+                  <path d="M3.5 6.5h5l1.5 2h6.5v6.5h-13z" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" />
+                </svg>
+                Открыть settings.json
+                <svg class="link-arrow" viewBox="0 0 20 20" aria-hidden="true">
+                  <path d="M7 13l6-6M8.5 7H13v4.5" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </button>
+            </div>
+
+            <div class="settings-group">
+              <div class="group-label">Поведение</div>
+
+              <label class="toggle-row">
+                <span class="toggle-copy">
+                  <span>Поверх всех окон</span>
+                  <small>Держать шторку над терминалом и браузером</small>
+                </span>
+                <input type="checkbox" id="toggleAlwaysOnTop" />
+                <i class="switch"></i>
+              </label>
+
+              <label class="toggle-row">
+                <span class="toggle-copy">
+                  <span>Скрывать при уходе курсора</span>
+                  <small>Открытая наведением шторка закрывается сама</small>
+                </span>
+                <input type="checkbox" id="toggleAutoHide" />
+                <i class="switch"></i>
+              </label>
+
+              <label class="toggle-row">
+                <span class="toggle-copy">
+                  <span>Открывать при ожидании ответа</span>
+                  <small>Шторка сама раскроется, когда сессия ждёт вашего ответа</small>
+                </span>
+                <input type="checkbox" id="toggleOpenOnAttention" />
+                <i class="switch"></i>
+              </label>
+
+              <label class="toggle-row">
+                <span class="toggle-copy">
+                  <span>Показывать контекст</span>
+                  <small>Полоса заполнения контекста у каждой сессии</small>
+                </span>
+                <input type="checkbox" id="toggleContext" />
+                <i class="switch"></i>
+              </label>
+            </div>
+
+            <div class="settings-group">
+              <div class="group-label">Уведомления</div>
+
+              <label class="toggle-row">
+                <span class="toggle-copy">
+                  <span>Сообщать о завершении</span>
+                  <small>Системное уведомление, когда сессия закончила</small>
+                </span>
+                <input type="checkbox" id="toggleNotifications" />
+                <i class="switch"></i>
+              </label>
+
+              <label class="toggle-row">
+                <span class="toggle-copy">
+                  <span>Запускать при входе</span>
+                  <small>После установки приложения в систему</small>
+                </span>
+                <input type="checkbox" id="toggleAutostart" />
+                <i class="switch"></i>
+              </label>
+            </div>
+
+            <div class="settings-group about-group">
+              <div class="group-label">Данные</div>
+              <div class="about-card">
+                <div class="about-icon">
+                  <svg viewBox="0 0 20 20" aria-hidden="true">
+                    <rect x="4" y="8.5" width="12" height="8" rx="2" fill="none" stroke="currentColor" stroke-width="1.3" />
+                    <path d="M7 8.5V6a3 3 0 0 1 6 0v2.5" fill="none" stroke="currentColor" stroke-width="1.3" />
+                  </svg>
+                </div>
+                <div>
+                  <div class="about-title">Всё остаётся на компьютере</div>
+                  <div class="about-sub">Perch читает локальные файлы агентов. Токен не покидает этот ПК.</div>
+                </div>
+              </div>
+              <button class="link-btn" id="dataPathBtn" type="button">
+                <svg viewBox="0 0 20 20" aria-hidden="true">
+                  <path d="M3.5 6.5h5l1.5 2h6.5v6.5h-13z" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" />
+                </svg>
+                Открыть папку данных
+                <svg class="link-arrow" viewBox="0 0 20 20" aria-hidden="true">
+                  <path d="M7 13l6-6M8.5 7H13v4.5" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </button>
+              <div class="version-line">
+                <span id="versionText">Perch 1.0</span>
+                <span class="version-dot"></span>
+                <span id="versionAgents">AI-агенты</span>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <footer class="footer">
+        <span class="footer-state">
+          <i id="footerDot"></i>
+          <span id="footerText">Нет активных сессий</span>
+        </span>
+        <span class="footer-hotkey">
+          <kbd>Alt</kbd><kbd>Shift</kbd><kbd>P</kbd>
+        </span>
+      </footer>
+
+      <div class="resize-grip" id="resizeGrip" title="Потяните, чтобы изменить высоту">
+        <span></span>
+      </div>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,66 @@
+{
+  "name": "perch",
+  "version": "1.0.0",
+  "description": "Perch — a droppable drawer for Windows that watches your local AI coding agents (Claude Code, opencode, Cursor CLI, Codex, Gemini CLI) and shows sessions, timers and Claude limits.",
+  "main": "src/main.js",
+  "author": "Perch",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron .",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder --win portable nsis --x64"
+  },
+  "devDependencies": {
+    "electron": "^45.1.0",
+    "electron-builder": "^26.18.0",
+    "png-to-ico": "^3.0.1"
+  },
+  "build": {
+    "appId": "com.perch.windows",
+    "productName": "Perch",
+    "copyright": "Perch for Windows",
+    "asar": true,
+    "compression": "maximum",
+    "directories": {
+      "output": "dist",
+      "buildResources": "assets"
+    },
+    "files": [
+      "src/**/*",
+      "renderer/**/*",
+      "assets/icon.png",
+      "assets/icon.ico",
+      "assets/tray.png",
+      "package.json"
+    ],
+    "win": {
+      "icon": "assets/icon.ico",
+      "target": [
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    },
+    "portable": {
+      "artifactName": "Perch-Windows-${version}.exe"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Perch",
+      "artifactName": "Perch-Setup-${version}.exe"
+    }
+  }
+}
